@@ -111,6 +111,7 @@ implements Runnable, MouseListener
 		{
 			System.out.println(graphy);
 			repaint();
+			System.out.println("GIVE ME DA PUSI b0ss");
 			try{
 				Thread.sleep(17);
 			}catch(InterruptedException e){}
