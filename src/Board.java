@@ -52,6 +52,10 @@ public class Board
 				{
 					return cur;
 				}
+				else if(mx>centerSystim.getX()&&mx<centerSystim.getX()+180&&my>centerSystim.getY()&&my<centerSystim.getY()+130)
+				{
+					return centerSystim;
+				}
 			}
 		}
 		return null;

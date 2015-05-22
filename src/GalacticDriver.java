@@ -92,15 +92,15 @@ implements Runnable, MouseListener
 		}
 	}
 
-	public void mouseClicked(MouseEvent e)
+	public void mouseClicked(MouseEvent e) {}
+	public void mousePressed(MouseEvent e)
 	{
 		currentSystem = gameBoard.checkClick(e.getX(),e.getY(),gg,this);
-        if(!(currentSystem==null))
-            InSyst = true;
+		if(!(currentSystem==null))
+			InSyst = true;
 		System.out.println(e.getPoint());
-        currentSystem.setOwner(redPlayer);
+		currentSystem.setOwner(redPlayer);
 	}
-	public void mousePressed(MouseEvent e){}
 	public void mouseReleased(MouseEvent e){}
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
