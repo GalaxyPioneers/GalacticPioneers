@@ -13,7 +13,7 @@ implements Runnable, MouseListener
 {
 	JFrame frame;
 	Image back, syst;
-	int x, y, sx = 200, sy = 100;
+	int x, y;
 	int dx = 3,dy = 3;
 	Thread th;
 	Board gameBoard;
@@ -24,26 +24,26 @@ implements Runnable, MouseListener
 	double height = screenSize.getHeight();
     private boolean InSyst = false;
     Systim currentSystem = null;
+    Player redPlayer = new Player(5,"yellow");
 
     public void init()
-	{
-		gameBoard = new Board();
+    {
 		back = new ImageIcon(this.getClass().getResource("Pics\\Background.JPG")).getImage();
-		syst = new ImageIcon(this.getClass().getResource("Pics\\SystemImg.PNG")).getImage();
+		syst = new ImageIcon(this.getClass().getResource("Pics\\UnclaimedSyst.PNG")).getImage();
 		setSize((int)width,(int)height);
 		addMouseListener(this);
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-		frame.setSize(1440, 900);
+		frame.setSize((int)width,(int)height);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.add(this);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//frame.setIconImage(face);
 		frame.setVisible(true);
-        sx = this.getWidth()/2-506;
+        gameBoard = new Board(this);
 		x = this.getWidth()/2;
 		y = this.getHeight()/2;
 		th = new Thread(this);
@@ -52,60 +52,34 @@ implements Runnable, MouseListener
 
 	public void paint(Graphics g)
 	{
-        if(!InSyst)
-        {
+        //if(!InSyst)
+        //{
             g.drawImage(back, 0, 0, this.getWidth(), this.getHeight(), this);
-            sx = this.getWidth() / 2 - 555;
-            drawGrid(g);
-            g.drawImage(syst, this.getWidth() / 2 - 90, 378, 180, 130, this);
+            gameBoard.drawGrid(g);
             setSize((int) width, (int) height);
+       // }
+       // else if(InSyst)
+       // {
+           // currentSystem.render(g,this);
+        //}
+	}
+	public void update(Graphics g) {
+        Image im = null;
+        Graphics dubG = null;
+
+        if (im == null) {
+            im = createImage(this.getSize().width, this.getSize().height);
+            dubG = im.getGraphics();
         }
-        else if(InSyst)
-        {
-            currentSystem.render(g,this);
-        }
-	}
-	public void update(Graphics g)
-	{
-		Image im = null;
-		Graphics dubG = null;
 
-		if(im == null)
-		{
-			im = createImage(this.getSize().width, this.getSize().height);
-			dubG = im.getGraphics();
-		}
+        dubG.setColor(Color.black);
+        dubG.fillRect(0, 0, this.getSize().width, this.getSize().height);
+        dubG.setColor(getForeground());
+        paint(dubG);
+        g.drawImage(im, 0, 0, this);
+    }
 
-		dubG.setColor(Color.black);
-		dubG.fillRect(0, 0, this.getSize().width, this.getSize().height);
-		dubG.setColor(getForeground());
-		paint(dubG);
-		g.drawImage(im, 0, 0, this);
-	}
-
-	public void drawGrid(Graphics g)
-	{
-		for(int i = 0;i<4;i++)
-		{
-			sy = 100;
-			for(int j = 0;j<4;j++)
-			{
- 				g.drawImage(syst, sx, sy,180,130,this);
-				gameBoard.setSystem(i,j,sx,sy);
-				if(j == 1)
-				{
-					sy+=280;
-				}
-				else
-				{sy+=140;}
-			}
-			if(i==1)
-			{sx+=420;}
-			else {sx+=210;}
-		}
-	}
-
-	public void run()
+    public void run()
 	{
 		while(true)
 		{
@@ -124,6 +98,7 @@ implements Runnable, MouseListener
         if(!(currentSystem==null))
             InSyst = true;
 		System.out.println(e.getPoint());
+        currentSystem.setOwner(redPlayer);
 	}
 	public void mousePressed(MouseEvent e){}
 	public void mouseReleased(MouseEvent e){}
