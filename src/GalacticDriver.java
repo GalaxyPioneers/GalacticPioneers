@@ -24,7 +24,8 @@ implements Runnable, MouseListener
 	double height = screenSize.getHeight();
     private boolean InSyst = false;
     Systim currentSystem = null;
-    Player redPlayer = new Player(5,"yellow");
+    Player curPlayer = new Player();
+	GalacticMenu thisMenu = new GalacticMenu(this);
 
     public void init()
     {
@@ -46,6 +47,7 @@ implements Runnable, MouseListener
         gameBoard = new Board(this);
 		x = this.getWidth()/2;
 		y = this.getHeight()/2;
+		thisMenu.init();
 		th = new Thread(this);
 		th.start();
 	}
@@ -55,13 +57,15 @@ implements Runnable, MouseListener
         if(!InSyst)
         {
             g.drawImage(back, 0, 0, this.getWidth(), this.getHeight(), this);
-            gameBoard.drawGrid(g);
-            setSize((int) width, (int) height);
+			try{
+            gameBoard.drawGrid(g);}catch(Exception e){}
+			setSize((int) width, (int) height);
         }
         else if(InSyst)
         {
             currentSystem.render(g,this);
         }
+		thisMenu.render(g,this);
 	}
 	public void update(Graphics g) {
         Image im = null;
@@ -106,5 +110,15 @@ implements Runnable, MouseListener
 	{
 		GalacticDriver dr = new GalacticDriver();
 		dr.init();
+	}
+
+	public void addMenu(GalacticMenu gm)
+	{
+		thisMenu = gm;
+	}
+
+	public Color getColor()
+	{
+		return curPlayer.getCol();
 	}
 }

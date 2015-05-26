@@ -11,7 +11,7 @@ public class Systim {
     public int plan1, plan2, plan3;
     String color = "gray";
     Player owner = null;
-    Image systImg;
+    Image systImg, backs;
 
     public Systim(int pX, int pY) {
         x = pX;
@@ -24,6 +24,14 @@ public class Systim {
         y = pY;
         planNum = pplanNum;
         StarVal = pStarVal;
+        systImg = new ImageIcon(getClass().getResource("Pics\\UnclaimedSyst.PNG")).getImage();
+    }
+    public Systim(int pX, int pY, int pplanNum, int pStarVal, Image im) {
+        x = pX;
+        y = pY;
+        planNum = pplanNum;
+        StarVal = pStarVal;
+        backs = im;
         systImg = new ImageIcon(getClass().getResource("Pics\\UnclaimedSyst.PNG")).getImage();
     }
 
@@ -44,6 +52,7 @@ public class Systim {
 
     public void render(Graphics g, Applet ap)
     {
+        g.drawImage(backs,0,0,ap.getWidth(),ap.getHeight(),null);
     }
 
 	public int getX(){return x;}

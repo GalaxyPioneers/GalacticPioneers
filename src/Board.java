@@ -22,9 +22,10 @@ public class Board
         int pPlan = 0;
         int stVal = 0;
         centerSystim = new Systim(ap.getWidth() / 2 - 90, ap.getHeight() / 2 - 65,3,50);
+		Image img = null;
         ArrayList<int[]> dats = new ArrayList<int[]>();
         try{
-            fil = new FileReader("Systims.txt");
+            fil = new FileReader("src\\Systims.txt");
             read = new BufferedReader(fil);
             String line;
             String[] data;
@@ -33,6 +34,10 @@ public class Board
                 data = line.split("[,]");
                 pPlan = Integer.parseInt(data[0]);
                 stVal = Integer.parseInt(data[1]);
+				if(data.length>=3)
+				{
+					img = new ImageIcon(ap.getClass().getResource("Pics\\"+data[2])).getImage();
+				}
                 dats.add(new int[]{pPlan, stVal});
             }
         }catch(IOException e){e.printStackTrace();}
@@ -46,7 +51,10 @@ public class Board
 			for(int j = 0;j<4;j++)
 			{
 				int[] temp = (int[])(iter.next());
-				systems[i][j] = new Systim(sx,sy,temp[0],temp[1]);
+				if(img!=null)
+					systems[i][j] = new Systim(sx,sy,temp[0],temp[1],img);
+				else
+					systems[i][j] = new Systim(sx,sy,temp[0],temp[1]);
 				if(j == 1)
 				{
 					sy+=280;
