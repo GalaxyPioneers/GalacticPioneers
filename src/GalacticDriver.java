@@ -52,16 +52,16 @@ implements Runnable, MouseListener
 
 	public void paint(Graphics g)
 	{
-        //if(!InSyst)
-        //{
+        if(!InSyst)
+        {
             g.drawImage(back, 0, 0, this.getWidth(), this.getHeight(), this);
             gameBoard.drawGrid(g);
             setSize((int) width, (int) height);
-       // }
-       // else if(InSyst)
-       // {
-           // currentSystem.render(g,this);
-        //}
+        }
+        else if(InSyst)
+        {
+            currentSystem.render(g,this);
+        }
 	}
 	public void update(Graphics g) {
         Image im = null;
@@ -83,9 +83,7 @@ implements Runnable, MouseListener
 	{
 		while(true)
 		{
-			System.out.println(graphy);
 			repaint();
-			System.out.println("GIVE ME DA PUSI b0ss");
 			try{
 				Thread.sleep(17);
 			}catch(InterruptedException e){}
@@ -98,8 +96,7 @@ implements Runnable, MouseListener
 		currentSystem = gameBoard.checkClick(e.getX(),e.getY(),gg,this);
 		if(!(currentSystem==null))
 			InSyst = true;
-		System.out.println(e.getPoint());
-		currentSystem.setOwner(redPlayer);
+		System.out.println(e.getPoint()+"\n"+currentSystem.getPlanNum()+" "+currentSystem.getStarVal()+"\n");
 	}
 	public void mouseReleased(MouseEvent e){}
 	public void mouseEntered(MouseEvent e){}

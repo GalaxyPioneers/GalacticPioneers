@@ -12,21 +12,41 @@ public class Board
 	private Systim[][] systems = new Systim[4][4];
 	private Systim centerSystim;
 	int boardHeight, boardWidth;
+    BufferedReader read;
+    FileReader fil;
 
 	public Board(Applet ap)
 	{
 		//oardHeight = (systems[3][3].getY())-(systems[0][0].getY());
 		//boardWidth = (systems[3][3].getX())-(systems[0][0].getX());
-		centerSystim = new Systim(ap.getWidth()/2-90,ap.getHeight()/2-65);
+        int pPlan = 0;
+        int stVal = 0;
+        centerSystim = new Systim(ap.getWidth() / 2 - 90, ap.getHeight() / 2 - 65,3,50);
+        ArrayList<int[]> dats = new ArrayList<int[]>();
+        try{
+            fil = new FileReader("Systims.txt");
+            read = new BufferedReader(fil);
+            String line;
+            String[] data;
+            while((line = read.readLine())!=null)
+            {
+                data = line.split("[,]");
+                pPlan = Integer.parseInt(data[0]);
+                stVal = Integer.parseInt(data[1]);
+                dats.add(new int[]{pPlan, stVal});
+            }
+        }catch(IOException e){e.printStackTrace();}
 		int sx = (int)(ap.getWidth()*.235);
 		int sy;
 
+		Iterator iter = dats.iterator();
 		for(int i = 0;i<4;i++)
 		{
 			sy = (int)(ap.getHeight()*.18);
 			for(int j = 0;j<4;j++)
 			{
-				systems[i][j] = new Systim(sx,sy);
+				int[] temp = (int[])(iter.next());
+				systems[i][j] = new Systim(sx,sy,temp[0],temp[1]);
 				if(j == 1)
 				{
 					sy+=280;
